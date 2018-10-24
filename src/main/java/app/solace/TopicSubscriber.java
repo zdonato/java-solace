@@ -29,7 +29,7 @@ import com.solacesystems.jcsmp.Topic;
 import com.solacesystems.jcsmp.XMLMessageConsumer;
 import com.solacesystems.jcsmp.XMLMessageListener;
 
-import utils.MessageHandler;
+import main.java.app.utils.MessageHandler;
 
 public class TopicSubscriber implements Runnable {
     private String host;
@@ -64,8 +64,6 @@ public class TopicSubscriber implements Runnable {
     }
 
     public void subscribe () throws JCSMPException {
-
-        System.out.println("TopicSubscriber initializing...");
         final JCSMPProperties properties = new JCSMPProperties();
         properties.setProperty(JCSMPProperties.HOST, host);     // host:port
         properties.setProperty(JCSMPProperties.USERNAME, clientUsername); // client-username

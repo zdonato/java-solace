@@ -3,12 +3,11 @@ package main.java.app.controllers;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.util.HtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import solace.TopicSubscriber;
-import utils.MessageHandler;
+import main.java.app.solace.TopicSubscriber;
+import main.java.app.utils.MessageHandler;
 
 @Controller
 public class ConnectController {
@@ -28,8 +27,6 @@ public class ConnectController {
         String password = "e58nmhog3r5q5i9heea8afopf1";
         String topic = "test/java";
         MessageHandler handler = new MessageHandler(this.template);
-
-        System.out.println("Setting up topic subscriber...");
 
         // Start the TopicSubscriber.
         TopicSubscriber ts = new TopicSubscriber(

@@ -25,6 +25,10 @@ function connect() {
     });
 }
 
+function sendName () {
+    stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val()}));
+}
+
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
