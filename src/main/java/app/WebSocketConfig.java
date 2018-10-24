@@ -1,4 +1,4 @@
-package hello;
+package main.java.app;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        System.out.println("Registering endpoints...");
         registry.addEndpoint("/gs-guide-websocket").withSockJS();
     }
 }

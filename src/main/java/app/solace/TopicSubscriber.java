@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package solace;
+package main.java.app.solace;
 
 import com.solacesystems.jcsmp.BytesXMLMessage;
 import com.solacesystems.jcsmp.JCSMPException;
@@ -29,7 +29,7 @@ import com.solacesystems.jcsmp.Topic;
 import com.solacesystems.jcsmp.XMLMessageConsumer;
 import com.solacesystems.jcsmp.XMLMessageListener;
 
-import hello.MessageHandler;
+import utils.MessageHandler;
 
 public class TopicSubscriber implements Runnable {
     private String host;

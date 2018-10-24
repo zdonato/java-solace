@@ -1,4 +1,4 @@
-package hello;
+package main.java.app.controllers;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -8,23 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import solace.TopicSubscriber;
+import utils.MessageHandler;
 
 @Controller
-public class GreetingController {
+public class ConnectController {
 
     private SimpMessagingTemplate template;
 
     @Autowired
-    public GreetingController (SimpMessagingTemplate template) {
+    public ConnectController (SimpMessagingTemplate template) {
         this.template = template;
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting (HelloMessage message) throws Exception {
-        System.out.println("Message received with name: " + message.getName());
-        Thread.sleep(1000);
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()));
     }
 
     @MessageMapping("/connect")
@@ -35,6 +28,8 @@ public class GreetingController {
         String password = "e58nmhog3r5q5i9heea8afopf1";
         String topic = "test/java";
         MessageHandler handler = new MessageHandler(this.template);
+
+        System.out.println("Setting up topic subscriber...");
 
         // Start the TopicSubscriber.
         TopicSubscriber ts = new TopicSubscriber(
