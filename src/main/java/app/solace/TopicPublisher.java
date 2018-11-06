@@ -27,7 +27,7 @@ import com.solacesystems.jcsmp.TextMessage;
 import com.solacesystems.jcsmp.Topic;
 import com.solacesystems.jcsmp.XMLMessageProducer;
 
-public class TopicPublisher implements Runnable {
+public class TopicPublisher {
     private String host;
     private String clientUsername;
     private String msgVpn;
@@ -46,26 +46,7 @@ public class TopicPublisher implements Runnable {
         this.topicName = topic;
     }
 
-    public TopicPublisher (String host, String clientUsername, String msgVpn, String password, String topic, String message) {
-        this.host = host;
-        this.clientUsername = clientUsername;
-        this.msgVpn = msgVpn;
-        this.password = password;
-        this.topicName = topic;
-
-        this.message = message;
-    }
-
-    @Override
-    public void run () {
-        try {
-            send();
-        } catch (JCSMPException e) {
-            System.out.println(e);
-        }
-    }
-
-    public void send() throws JCSMPException {
+    public void send(String message) throws JCSMPException {
         // Create a JCSMP Session
         final JCSMPProperties properties = new JCSMPProperties();
         properties.setProperty(JCSMPProperties.HOST, host);     // host:port
@@ -92,9 +73,19 @@ public class TopicPublisher implements Runnable {
         });
 
         TextMessage msg = JCSMPFactory.onlyInstance().createMessage(TextMessage.class);
-
         msg.setText(message);
-        prod.send(msg,topic);
-        session.closeSession();
+
+        Thread t = new Thread () {
+            public void run () {
+                try {
+                    prod.send(msg, topic);
+                    session.closeSession();
+                } catch (JCSMPException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        t.start();
     }
 }
