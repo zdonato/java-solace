@@ -79,11 +79,14 @@ public class TopicSubscriber implements Runnable {
         cons = session.getMessageConsumer(new XMLMessageListener() {
             @Override
             public void onReceive(BytesXMLMessage msg) {
+                long proxyTimestamp = System.currentTimeMillis();
+                String pubToSubTimeString = new StringBuffer(27).append(msg.getSenderTimestamp()).append('/').append(proxyTimestamp).toString();
                 if (msg instanceof TextMessage) {
 //                    System.out.printf("TextMessage received: '%s'%n",
 //                            ((TextMessage) msg).getText());
                     try {
-                        handler.sendToUI(((TextMessage) msg).getText());
+                        // handler.sendToUI(((TextMessage) msg).getText());
+                        handler.sendToUI(pubToSubTimeString);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

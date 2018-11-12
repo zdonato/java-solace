@@ -35,7 +35,7 @@ public class TopicPublisher {
     private String msgVpn;
     private String password;
     private String topicName;
-
+    private boolean generateSendTimestamps;
     private String message;
 
     private final int MAX_THREADS = 10;
@@ -52,6 +52,8 @@ public class TopicPublisher {
         this.topicName = topic;
 
         this.pool = Executors.newFixedThreadPool(MAX_THREADS);
+        this.generateSendTimestamps = true;
+
     }
 
     public void send(String message) throws JCSMPException {
@@ -61,6 +63,7 @@ public class TopicPublisher {
         properties.setProperty(JCSMPProperties.USERNAME, clientUsername); // client-username
         properties.setProperty(JCSMPProperties.PASSWORD, password); // client-password
         properties.setProperty(JCSMPProperties.VPN_NAME,  msgVpn); // message-vpn
+        properties.setProperty(JCSMPProperties.GENERATE_SEND_TIMESTAMPS,  generateSendTimestamps); // generates timestamps
         final JCSMPSession session =  JCSMPFactory.onlyInstance().createSession(properties);
 
         session.connect();
