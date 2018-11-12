@@ -26,6 +26,8 @@ import com.solacesystems.jcsmp.JCSMPStreamingPublishEventHandler;
 import com.solacesystems.jcsmp.TextMessage;
 import com.solacesystems.jcsmp.Topic;
 import com.solacesystems.jcsmp.XMLMessageProducer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TopicPublisher {
     private String host;
@@ -36,6 +38,10 @@ public class TopicPublisher {
 
     private String message;
 
+    private final int MAX_THREADS = 10;
+
+    private ExecutorService pool;
+
     public TopicPublisher () {}
 
     public TopicPublisher (String host, String clientUsername, String msgVpn, String password, String topic) {
@@ -44,6 +50,8 @@ public class TopicPublisher {
         this.msgVpn = msgVpn;
         this.password = password;
         this.topicName = topic;
+
+        this.pool = Executors.newFixedThreadPool(MAX_THREADS);
     }
 
     public void send(String message) throws JCSMPException {
@@ -86,6 +94,7 @@ public class TopicPublisher {
             }
         };
 
-        t.start();
+        System.out.println("Sending message...");
+        this.pool.execute(t);
     }
 }
