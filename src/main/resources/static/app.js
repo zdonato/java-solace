@@ -40,12 +40,12 @@ function sendName () {
         i++;
         stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
         console.log('Sent message ')
-    }, 10)
+    }, 25)
 
     setTimeout(function(){
         i = 0;
         clearInterval(interval)
-    }, 10000);
+    }, 25000);
 }
 
 function disconnect() {
