@@ -33,14 +33,18 @@ function connect() {
 
 function sendName () {
     var interval,
+        i = 0;
 
     interval = setInterval(function(){
-        stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val()}));
-    }, 25)
+        i++;
+        stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
+        console.log('Sent message ' + '#' + i )
+    }, 10)
 
     setTimeout(function(){
+        i = 0;
         clearInterval(interval)
-    }, 25000);
+    }, 10000);
 }
 
 function disconnect() {

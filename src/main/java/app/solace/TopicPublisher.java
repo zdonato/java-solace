@@ -38,7 +38,7 @@ public class TopicPublisher {
     private boolean generateSendTimestamps;
     private String message;
 
-    private final int MAX_THREADS = 10;
+    private final int MAX_THREADS = 50;
 
     private ExecutorService pool;
 
