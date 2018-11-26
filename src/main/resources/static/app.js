@@ -16,6 +16,7 @@ function setConnected(connected) {
 function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null;
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -38,7 +39,7 @@ function sendName () {
     interval = setInterval(function(){
         i++;
         stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
-        console.log('Sent message ' + '#' + i )
+        console.log('Sent message ')
     }, 10)
 
     setTimeout(function(){
@@ -57,7 +58,7 @@ function disconnect() {
 
 function showGreeting(message) {
     // $("#greetings").append("<tr><td>" + message + "</td></tr>");
-    console.log("Time :" + message);
+    //console.log("Time :" + message);
     runTimes.push(message);
 }
 
@@ -102,7 +103,7 @@ function analyzeRuntime (){
     minpubtoProx = math.min(...pubToProxArray);
     stdevpubtoProx = math.std(...pubToProxArray);
 
-    console.log(`Statistical analyses Solace --> Proxy (ms) - Mean: ${meanpubToProx}, Median: ${medianpubtoProx}, Mode: ${modepubtoProx}, Max: ${maxpubtoProx}, Min: ${minpubtoProx}, STDev: ${stdevpubtoProx}`);
+    console.log(`Statistical analyses Solace --> Proxy (ms) - \nMean: ${meanpubToProx} \nMedian: ${medianpubtoProx} \nMode: ${modepubtoProx} \nMax: ${maxpubtoProx} \nMin: ${minpubtoProx} \nSTDev: ${stdevpubtoProx}`);
 
     meanproxToUI = math.mean(...proxToUIArray);
     medianproxToUI = math.median(...proxToUIArray);
@@ -111,7 +112,7 @@ function analyzeRuntime (){
     minproxToUI = math.min(...proxToUIArray);
     stdevproxToUI = math.std(...proxToUIArray);
 
-    console.log(`Statistical analyses Proxy --> UI (ms) - Mean: ${meanproxToUI}, Median: ${medianproxToUI}, Mode: ${modeproxToUI}, Max: ${maxproxToUI}, Min: ${minproxToUI}, STDev: ${stdevproxToUI}`);
+    console.log(`Statistical analyses Proxy --> UI (ms) - \nMean: ${meanproxToUI} \nMedian: ${medianproxToUI} \nMode: ${modeproxToUI} \nMax: ${maxproxToUI} \nMin: ${minproxToUI} \nSTDev: ${stdevproxToUI}`);
 }
 
 $(function () {
