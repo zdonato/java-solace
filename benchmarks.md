@@ -2,17 +2,17 @@
 
 ###Summary
 
-We tested tested the time it takes for a message to travel from the Solace publisher to a java proxy server and then from the server to a UI. 
+We tested the time it takes for a message to travel from the Solace publisher to a java proxy server and then from the server to a UI. 
 
-The messages were send over websockets using a Stomp client, with each message connection using its own thread. Since the solace cloud was configured to have at most 50 simultaneous connections to its VPN, we executed the threads with a thread pool whose MAX_THREADS parameter we set to 50.
+A trial consists of 1,000 messages of the same twelve character string "Hello World!" being sent at fixed interval. We changed the value of the interval from 10ms to 25ms and run each trial twenty times per interval.
 
-The message we used throughout testing was the twelve character string "Hello World!". For each trial, the total amount of messages was 1,000 and each message was sent in a fixed interval. We varied the value of the interval from 10ms to 25ms and group the results by interval set. 
+The Java application sends the messages over WebSockets using a Stomp client, with each message connection using its own thread. Since the Solace cloud configuration allows at most 50 simultaneous connections to its VPN, a thread pool managed the execution of the threads, with the MAX_THREADS parameter set to 50.
 
 
 ###Results
 
 ###Message Integrity
-Each trial of the 10ms interval group had between 12 and 51 messages missing. There are two reasons for this: 1) The StompClient.send function takes longer to execute than other types of websockets (i.e. Node), resulting in less messages sent before the timer clears the function executed on each interval. 2) A JCSMPTransportException where the TCPClient cannot connect or read from the router. At greater intervals both issues still occur, though with less frequency, as you can see below in Table 1.
+Each trial of the 10ms interval group lost an average of 25 messages. With each lost message, one of two issues occurred: 1) The `StompClient.send()` function took longer to execute than WebSocket functions using other protocols (i.e. NodeJS). As a result, fewer messages were sent before the timer cleared the function executed on each interval. 2) A JCSMPTransportException ocurred where the TCPClient cannot connect or read from the router. At greater intervals both issues still occured, though with less frequency.
 
 #####[Table 1] Messages Missing per Trial (n = 1000 messages)
 
