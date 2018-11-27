@@ -1,5 +1,6 @@
 var stompClient = null;
 var runTimes = [];
+var receivedMessages = 0;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -27,6 +28,8 @@ function connect() {
                 proxUITime = parseInt(now) - parseInt(times[1]),
                 runtime = pubProxTime + '/' + proxUITime;
             showGreeting(runtime);
+            console.log("received message");
+            receivedMessages++;
         });
         stompClient.send("/app/connect");
     });
@@ -39,13 +42,13 @@ function sendName () {
     interval = setInterval(function(){
         i++;
         stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
-        console.log('Sent message ')
-    }, 10)
+        //console.log('Sent message ')
+    }, 20)
 
     setTimeout(function(){
         i = 0;
         clearInterval(interval)
-    }, 10000);
+    }, 20000);
 }
 
 function disconnect() {
@@ -103,7 +106,13 @@ function analyzeRuntime (){
     minpubtoProx = math.min(...pubToProxArray);
     stdevpubtoProx = math.std(...pubToProxArray);
 
-    console.log(`Statistical analyses Solace --> Proxy (ms) - \nMean: ${meanpubToProx} \nMedian: ${medianpubtoProx} \nMode: ${modepubtoProx} \nMax: ${maxpubtoProx} \nMin: ${minpubtoProx} \nSTDev: ${stdevpubtoProx}`);
+    console.log("Received messages from server: ", receivedMessages);
+
+    console.log(`Statistical analyses Solace --> Proxy (ms) - 
+            \nMissing: ${1000 - parsedTimes.length}
+            \nMin: ${minpubtoProx} \nMax: ${maxpubtoProx} 
+            \nMode: ${modepubtoProx} \nMedian: ${medianpubtoProx} 
+            \nMean: ${meanpubToProx} \nSTDev: ${stdevpubtoProx}`);
 
     meanproxToUI = math.mean(...proxToUIArray);
     medianproxToUI = math.median(...proxToUIArray);
@@ -112,7 +121,13 @@ function analyzeRuntime (){
     minproxToUI = math.min(...proxToUIArray);
     stdevproxToUI = math.std(...proxToUIArray);
 
-    console.log(`Statistical analyses Proxy --> UI (ms) - \nMean: ${meanproxToUI} \nMedian: ${medianproxToUI} \nMode: ${modeproxToUI} \nMax: ${maxproxToUI} \nMin: ${minproxToUI} \nSTDev: ${stdevproxToUI}`);
+    console.log(`Statistical analyses Proxy --> UI (ms) - 
+            \nMin: ${minproxToUI} \nMax: ${maxproxToUI}
+            \nMode: ${modeproxToUI} \nMedian: ${medianproxToUI} 
+            \nMean: ${meanproxToUI} \nSTDev: ${stdevproxToUI}`);
+
+    runTimes = [];
+    receivedMessages = 0;
 }
 
 $(function () {

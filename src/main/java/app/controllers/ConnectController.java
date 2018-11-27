@@ -25,7 +25,7 @@ public class ConnectController {
         String clientUsername = "solace-cloud-client";
         String msgVpn = "msgvpn-3i7dci3d6n";
         String password = "e58nmhog3r5q5i9heea8afopf1";
-        String topic = "test/java";
+        String topic = "test/zach";
         MessageHandler handler = new MessageHandler(this.template);
 
         // Start the TopicSubscriber.
