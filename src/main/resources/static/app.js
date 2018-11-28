@@ -1,6 +1,7 @@
 var stompClient = null;
 var runTimes = [];
 var receivedMessages = 0;
+var trialNumber = 1;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -48,7 +49,7 @@ function sendName () {
     setTimeout(function(){
         i = 0;
         clearInterval(interval)
-    }, 20000);
+    }, 200);
 }
 
 function disconnect() {
@@ -126,8 +127,28 @@ function analyzeRuntime (){
             \nMode: ${modeproxToUI} \nMedian: ${medianproxToUI} 
             \nMean: ${meanproxToUI} \nSTDev: ${stdevproxToUI}`);
 
+    let stats = [
+        trialNumber,
+        (1000 - parsedTimes.length),
+        meanpubToProx,
+        medianpubtoProx,
+        modepubtoProx[0],
+        maxpubtoProx,
+        minpubtoProx,
+        stdevpubtoProx,
+        meanproxToUI,
+        medianproxToUI,
+        modeproxToUI[0],
+        maxproxToUI,
+        minproxToUI,
+        stdevproxToUI
+    ];
+
+    stompClient.send("/app/stats", {}, stats.toString());
+
     runTimes = [];
     receivedMessages = 0;
+    trialNumber++;
 }
 
 $(function () {
