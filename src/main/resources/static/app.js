@@ -42,14 +42,14 @@ function sendName () {
 
     interval = setInterval(function(){
         i++;
-        stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
-        //console.log('Sent message ')
-    }, 20)
-
-    setTimeout(function(){
-        i = 0;
-        clearInterval(interval)
-    }, 200);
+        if (i > 1000) {
+            i = 0;
+            window.clearInterval(interval);
+        } else {
+            stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
+            console.log('Sent message ' + 'Hello World!' + ' #' + i );
+        }
+    }, 10)
 }
 
 function disconnect() {
