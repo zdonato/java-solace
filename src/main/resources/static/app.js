@@ -37,19 +37,23 @@ function connect() {
 }
 
 function sendName () {
-    var interval,
-        i = 0;
+    var interval;
+        // i = 0;
 
-    interval = setInterval(function(){
-        i++;
-        if (i > 1000) {
-            i = 0;
-            window.clearInterval(interval);
-        } else {
-            stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
-            console.log('Sent message ' + 'Hello World!' + ' #' + i );
-        }
-    }, 10)
+    // interval = setInterval(function(){
+    //     i++;
+    //     if (i > 1000) {
+    //         i = 0;
+    //         window.clearInterval(interval);
+    //     } else {
+    //         stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + i}));
+    //         console.log('Sent message ' + 'Hello World!' + ' #' + i );
+    //     }
+    // }, 25)
+    for (var i = 0; i < 1000; i++){
+        stompClient.send("/app/send", {}, JSON.stringify({'name': $("#name").val() + ': #' + (i+1)}));
+        console.log('Sent message ' + 'Hello World!' + ' #' + (i+1) );
+    }
 }
 
 function disconnect() {
