@@ -59,13 +59,13 @@ The times from the Java server to the UI were also higher with the synchronous t
 ##### [Table 3] Time between Solace and java proxy server (over 60 trials)
 
 |  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
-| -------------:   | -------: | -------: | --------: | ----------: | --------: | ---------: |
+| ---------------: | -------: | -------: | --------: | ----------: | --------: | ---------: |
 | **Sync (0ms)**   | 18       | 345      | 34        | 39          | 44.392    | 27.688     |
 | **Async (10ms)** | 9        | 103      | 12        | 16          | 20.567    | 12.582     |
 
 ##### [Table 4] Time between java proxy server and UI (over 60 trials)
 
 |  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
-| -------------:   | -------: | -------: | --------: | ----------: | --------: | ---------: |
+| ---------------: | -------: | -------: | --------: | ----------: | --------: | ---------: |
 | **Sync (0ms)**   | < 1      | 107      | 2         | 2           | 3.090     | 7.731      |
 | **Async (10ms)** | < 1      | 21       | 1         | 2           | 2.511     | 1.852      |
