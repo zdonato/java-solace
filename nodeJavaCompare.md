@@ -121,4 +121,6 @@ Additionally, for both types of applications the standard deviation is higher th
 | **Async (10ms)** | < 1      | 6        | 1         | 1           | 1.095     | 0.746      |
 
 ## Conclusions
+For the Async Interval test, the NodeJS application was more consistent in its values between the intervals for both from the Solace to proxy server and from the proxy server to the UI than the Java application. The NodeJS application was also between a few milliseconds to a few hundred microseconds faster than the Java application.
 
+For the Synchronous test, on the other hand, the Java application was faster than the NodeJS application by a significant margin. Since could be due to the Java applications use of multithreading, while the JavaScript language and NodeJS lend themselves to be more efficient in asynchronous design patterns and scenarios (such as UI interaction).
