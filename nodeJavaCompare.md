@@ -80,6 +80,9 @@ A trial consists of 1,000 messages of the twelve character string "Hello World!"
 
 ##### Solace to Proxy Server
 ##### [Table 5] Time between Solace and Java proxy server (over 60 trials)
+The mean and standard deviation for the NodeJS application, 231.962ms and 64.791ms was markedly higher than those for the Java application, which was 44.392ms and 27.688ms. This makes the difference between the means and standard deviations of the two types of applications 188ms and 37ms respectively.
+
+The values for both types of applications was also higher for the sync test than the async test, with around 116% higher for the Java application mean and 13415% higher for the NodeJS application mean.
 
 |  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
 | ---------------: | -------: | -------: | --------: | ----------: | --------: | ---------: |
@@ -87,20 +90,27 @@ A trial consists of 1,000 messages of the twelve character string "Hello World!"
 | **Async (10ms)** | 9        | 103      | 12        | 16          | 20.567    | 12.582     |
 
 
-##### [Table 6] Time between Java proxy server and UI (over 60 trials)
-
-|  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
-| ---------------: | -------: | -------: | --------: | ----------: | --------: | ---------: |
-| **Sync (0ms)**   | < 1      | 107      | 2         | 2           | 3.090     | 7.731      |
-| **Async (10ms)** | < 1      | 21       | 1         | 2           | 2.511     | 1.852      |
-
-##### Proxy Server to UI
-##### [Table 7] Time between Solace and NodeJS proxy server (over 60 trials)
+##### [Table 6] Time between Solace and NodeJS proxy server (over 60 trials)
 
 |  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
 | -------------:   | -------: | -------: | --------: | ----------: | --------: | ---------: |
 | **Sync (0ms)**   | 100      | 348      | 241       | 236         | 231.962   | 64.791     |
 | **Async (10ms)** | 9        | 61       | 11        | 13          | 16.092    | 8.112      |
+
+
+##### Proxy Server to UI
+The mean and standard deviation for the NodeJS application, 8.939ms and 20.507ms was also higher than those for the Java application, which was 3.090ms and 7.731ms. This makes the difference between the means and standard deviations of the two types of applications 5.8ms and 12.8ms respectively.
+
+The values for both types of applications was also higher for the sync test than the async test, with around 23% higher for the Java application mean and 716% higher for the NodeJS application mean.
+
+Additionally, for both types of applications the standard deviation is higher than the mean, pointing to the possibility of multiple peaks in the distributions.
+
+##### [Table 7] Time between Java proxy server and UI (over 60 trials)
+
+|  Test Type (ms)  | min (ms) | max (ms) | mode (ms) | median (ms) | mean (ms) | stdev (ms) |
+| ---------------: | -------: | -------: | --------: | ----------: | --------: | ---------: |
+| **Sync (0ms)**   | < 1      | 107      | 2         | 2           | 3.090     | 7.731      |
+| **Async (10ms)** | < 1      | 21       | 1         | 2           | 2.511     | 1.852      |
 
 
 ##### [Table 8] Time between NodeJS proxy server and UI (over 60 trials)
