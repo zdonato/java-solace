@@ -1,14 +1,12 @@
 # Comparison of NodeJS and Java benchmarks for Solace
 
 ## Objective
-With the growing popularity of JavaScript frameworks (both for the frontend and backend) and the trend toward client-side applications, Java-based solution are becoming legacy solutions. At the same, real-time notifications are become increasingly important in consumer-facing applications, especially in the financial sector.
-
-Therefore, we decided to compare the efficiencies of a Java driven and a NodeJS driven application using the Solace messaging system, currently the fastest, most efficient messaging system on the market. We wanted to see if there was any differences in speed between the two implementations.
+We decided to compare the speeds of a Java driven and a NodeJS driven application using the Solace messaging system, currently the fastest, most efficient messaging system on the market. 
 
 ## Test Summary
 We ran two different types of tests, an asynchronous messaging test where the messages were sent with an interval between them, and synchronous test where all the messages were sent in series.
 
-Both applications had only two components: a frontend and a proxy server. One sever was written in Java while the other was written in NodeJS. To connect to the Solace cloud, we used WebSockets. While NodeJS has its own native WebSocket implementation, Java need a StompClient to provide an extra layer of protocol on top of a TCP connection.
+Both applications had only two components: a frontend and a proxy server. One sever was written in Java while the other was written in NodeJS. WebSockets were used to connect to the Solace cloud. While NodeJS has its own native WebSocket implementation, Java needed an extra layer to facilitate the data exchange across the TCP connection, for which we chose the STOMP protocol and STOMP web client.
 
 Futhermore, the Java application sent each message in its own thread to the Solace cloud. Since the Solace cloud configuration allows at most 50 simultaneous connections to its VPN, a thread pool managed the execution of the threads, with the MAX_THREADS parameter set to 50.
 
@@ -16,13 +14,13 @@ Futhermore, the Java application sent each message in its own thread to the Sola
 ### Asynchronous Interval Test
 In this test set we used a Web Worker to schedule repeatedly sending a message asynchronously at a given interval through JavaScript's setInterval method. 
 
-A trial consists of 1,000 messages of the twelve character string "Hello World!" being sent that fixed interval. We changed the value of the interval from 10ms to 25ms and ran each trial sixty times per interval.
+A trial consists of 1,000 messages of the twelve character string "Hello World!" being sent during the fixed interval. We changed the value of the interval from 10ms to 25ms and ran each trial sixty times per interval.
 
 #### Results
 
 ##### Solace to Proxy Server
 
-For the 10ms interval, both mean and stanard deviation have higher values with the Java application than with the NodeJS application. The Java application has a mean of 20.567 and a standard deviation of 12.582, while the NodeJS application has a mean of 16.092 and a standard deviation of 8.112. The difference between them is 4.48ms and 4.47ms respectively.  
+For the 10ms interval, both the mean and standard deviation have higher values with the Java application than with the NodeJS application. The Java application has a mean of 20.567 and a standard deviation of 12.582, while the NodeJS application has a mean of 16.092 and a standard deviation of 8.112. The difference between them is 4.48ms and 4.47ms respectively.  
 
 While in subsequent intervals the Java application means decrease to 16.247ms for 25ms, the means for the NodeJS application fluctuate between 15.982ms and 16.680ms throughout the intervals. At 25ms, the Java application has a mean 16.247ms while the NodeJS application has a mean of 16.680ms, a difference of a mere 433μs lower for the Java application. 
 
@@ -101,7 +99,7 @@ The values for both types of applications was also higher for the sync test than
 ##### Proxy Server to UI
 The mean and standard deviation for the NodeJS application, 8.939ms and 20.507ms was also higher than those for the Java application, which was 3.090ms and 7.731ms. This makes the difference between the means and standard deviations of the two types of applications 5.8ms and 12.8ms respectively.
 
-The values for both types of applications was also higher for the sync test than the async test, with around 23% higher for the Java application mean and 716% higher for the NodeJS application mean.
+The values for both types of applications were also higher for the sync test than the async test, with around 23% higher for the Java application mean and 716% higher for the NodeJS application mean.
 
 Additionally, for both types of applications the standard deviation is higher than the mean, pointing to the possibility of multiple peaks in the distributions.
 
@@ -123,4 +121,4 @@ Additionally, for both types of applications the standard deviation is higher th
 ## Conclusions
 For the Async Interval test, the NodeJS application was more consistent in its values between the intervals for both from the Solace to proxy server and from the proxy server to the UI than the Java application. The NodeJS application was also between a few milliseconds to a few hundred microseconds faster than the Java application.
 
-For the Synchronous test, on the other hand, the Java application was faster than the NodeJS application by a significant margin. Since could be due to the Java applications use of multithreading, while the JavaScript language and NodeJS lend themselves to be more efficient in asynchronous design patterns and scenarios (such as UI interaction).
+For the Synchronous test, on the other hand, the Java application was faster than the NodeJS application by a significant margin. Since this could be due to the Java applications use of multithreading, while the JavaScript language and NodeJS lend themselves to be more efficient in asynchronous design patterns and scenarios (such as UI interaction). With the asynchronous tests, the setInterval function put each message in its own worker thread, utilizing client-side parallelization. The for-loop, on the other hand, used a single thread on the client side for sending all messages, possibly creating bottlenecks in the response times.   
